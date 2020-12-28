@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:money_tracker_app/utils/color_utils.dart';
 import 'package:money_tracker_app/utils/screen_util.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
+import 'package:money_tracker_app/views/money_tracker_mainView.dart';
 import 'package:money_tracker_app/views/submit_spending.dart';
 
 import 'app/locator.dart';
 
-void main() async{
+void main() async {
   await configure();
   runApp(
     App(),
@@ -27,7 +28,6 @@ class App extends StatelessWidget {
   }
 }
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
-            return SubmitSpending();
-            },
+            return MoneyTrackerMainView();
+          },
         );
       },
     );
