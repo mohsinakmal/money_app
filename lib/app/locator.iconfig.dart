@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:money_tracker_app/view_models/history_view_model.dart';
 import 'package:money_tracker_app/view_models/my_base_view_model.dart';
 import 'package:money_tracker_app/view_models/nav_view_model.dart';
+import 'package:money_tracker_app/view_models/settings_view_model.dart';
 import 'package:money_tracker_app/view_models/submit_spending_view_model.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -16,6 +17,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => SubmitSpendingViewModel());
   g.registerLazySingleton<MyBaseViewModel>(() => MyBaseViewModel());
   g.registerLazySingleton<HistoryViewModel>(() => HistoryViewModel());
+  g.registerLazySingleton<SettingsViewModel>(() => SettingsViewModel());
   // PrefrencesViewModel prefrencesViewModel = PrefrencesViewModel();
   // await prefrencesViewModel.getUserData();
   // g.registerLazySingleton<PrefrencesViewModel>(() => prefrencesViewModel);

@@ -4,6 +4,7 @@ import 'package:money_tracker_app/utils/screen_util.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
 import 'package:money_tracker_app/views/money_tracker_mainView.dart';
 import 'package:money_tracker_app/views/submit_spending.dart';
+import 'package:money_tracker_app/views/welcome_screen.dart';
 
 import 'app/locator.dart';
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
-            return MoneyTrackerMainView();
+            return WelcomeScreen();
           },
         );
       },

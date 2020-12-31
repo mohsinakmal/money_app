@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracker_app/view_models/my_base_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubmitSpendingViewModel extends MyBaseViewModel {
   final descriptionController = TextEditingController();
@@ -8,10 +9,16 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   FocusNode descriptionFocus = new FocusNode();
   bool isDescriptionInFocus = false;
   String currentValue = "\$0.00";
+  String errorMessage;
+  SharedPreferences pref;
+  bool loadSetting = false;
 
   void initializeModel() async {
+    pref = await SharedPreferences.getInstance();
+    loadSetting = await pref.getBool("toggleState");
     descriptionController.clear();
     isDescriptionInFocus = false;
+    notifyListeners();
   }
 
   void _onDescriptionFocus() {
@@ -41,12 +48,6 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
         onTap: () => buttonPressed(number));
   }
 
-// Widget deleteButton(Icon icon){
-//   return IconButton(
-//     icon: icon,
-//     onPressed: (){},
-//   );
-// }
   buttonPressed(String number) {
     if (number == "C") {
     } else if (number == "⌫") {
@@ -78,6 +79,26 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
       } else {
         amountController.text = number + amountController.text;
       }
+    }
+  }
+
+  void showErrorMessage(String error)async{
+    errorMessage = error;
+    notifyListeners();
+    await Future.delayed(Duration(seconds: 3));
+    errorMessage = null;
+    notifyListeners();
+  }
+
+  void calculateAmount()async{
+    if(amountController.text.isNotEmpty){
+      String dailyAverage = await pref.get("dailyAverage");
+      String remaining = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
+      await pref.setString('remaining', remaining);
+      amountController.clear();
+    }
+    else{
+      showErrorMessage('Enter the Amount');
     }
   }
 }

@@ -8,7 +8,9 @@ import 'package:money_tracker_app/utils/screen_util.dart';
 import 'package:money_tracker_app/utils/common_functions.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
 import 'package:money_tracker_app/view_models/submit_spending_view_model.dart';
+import 'package:money_tracker_app/views/settings.dart';
 import 'package:money_tracker_app/widgets/nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:money_tracker_app/widgets/size_helpers.dart';
 import 'package:stacked/stacked.dart';
 
@@ -23,7 +25,7 @@ class _SubmitSpendingState extends State<SubmitSpending> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SubmitSpendingViewModel>.reactive(
-      onModelReady: (data) => data.setFocusListeners(),
+      onModelReady: (data) => data.initializeModel(),
       builder: (context, data, child) {
         return GestureDetector(
           onTap: () {
@@ -32,13 +34,16 @@ class _SubmitSpendingState extends State<SubmitSpending> {
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text('Money Tracker'),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
                     Icons.settings,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Settings()));
+                  },
                 ),
               ],
             ),
@@ -49,13 +54,6 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                   height: ScreenUtil.getInstance().height * .05,
                 ),
                 Container(
-                  // child: Text(
-                  //   '\$0.00',
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //     fontSize: SizeConfig.textMultiplier * 8,
-                  //   ),
-                  // ),
                   child: new TextField(
                     controller: data.amountController,
                     textAlign: TextAlign.center,
@@ -69,6 +67,29 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                           TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
                       border: InputBorder.none,
                     ),
+                  ),
+                ),
+                Container(
+                  // margin: EdgeInsets.only(
+                  //     left: 3.5 * SizeConfig.widthMultiplier,
+                  //     right: 3.5 * SizeConfig.widthMultiplier,
+                  //     bottom:
+                  //     SizeConfig.heightMultiplier * 17),
+                  //height: 5.2 * SizeConfig.heightMultiplier,
+                  child: Center(
+                    child: data.errorMessage != null
+                        ? Text(
+                      data.errorMessage,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 2 *
+                            SizeConfig.textMultiplier,
+                      ),
+                      maxLines: null,
+                      textAlign: TextAlign.center,
+                    )
+                        : Container(),
                   ),
                 ),
                 SizedBox(
@@ -98,11 +119,15 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                 SizedBox(
                   height: SizeConfig.heightMultiplier * 9.5,
                 ),
+                !data.loadSetting
+                    ?
                 SizedBox(
                   width: double.infinity,
                   height: SizeConfig.heightMultiplier * 8,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      data.calculateAmount();
+                    },
                     child: Text(
                       'Spend',
                       style: TextStyle(
@@ -111,6 +136,40 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                     ),
                     color: ColorUtils.primaryColor,
                   ),
+                )
+                :
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: RaisedButton(onPressed: (){},
+                        elevation: 5.0,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),
+                        //height: SizeConfig.heightMultiplier * 10,
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              fontSize: SizeConfig.textMultiplier * 2.5,
+                            ),
+                          ),
+                        color: ColorUtils.primaryColor,
+                      ),
+                    ),
+                    SizedBox(width: SizeConfig.widthMultiplier * 0.2,),
+                    Expanded(
+                      child: RaisedButton(onPressed: (){},
+                        elevation: 5.0,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),
+                        child: Text(
+                          'Spend',
+                          style: TextStyle(
+                            fontSize: SizeConfig.textMultiplier * 2.5,
+                          ),
+                        ),
+                        color: ColorUtils.primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: SizeConfig.heightMultiplier * 2.5,
