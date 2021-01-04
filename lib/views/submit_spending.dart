@@ -119,7 +119,7 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                 SizedBox(
                   height: SizeConfig.heightMultiplier * 9.5,
                 ),
-                !data.loadSetting
+                data.loadSetting == false
                     ?
                 SizedBox(
                   width: double.infinity,

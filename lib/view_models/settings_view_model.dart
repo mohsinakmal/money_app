@@ -9,13 +9,15 @@ class SettingsViewModel extends MyBaseViewModel {
   bool historySwitched = false;
   String dailyAmount = '';
   SharedPreferences pref;
+  bool savedToggle = false;
   //bool saveToggle = false;
 
   void initializeModel(BuildContext context)async{
     pref = await SharedPreferences.getInstance();
     dailyAmount = await pref.getString('dailyAverage');
+     //await  pref.setBool("toggleState", saveSwitched);
     saveSwitched = await pref.getBool('toggleState');
-    //await  pref.setBool("toggleState", saveSwitched);
+    savedToggle = await pref.getBool("save");
     notifyListeners();
   }
 
@@ -25,7 +27,7 @@ class SettingsViewModel extends MyBaseViewModel {
 
   saveButton(bool value) {
     saveSwitched = value;
-    //pref.setBool("save", value);
+    pref.setBool("save", saveSwitched);
     notifyListeners();
   }
 
@@ -39,8 +41,9 @@ class SettingsViewModel extends MyBaseViewModel {
     notifyListeners();
   }
   void saveSettings(BuildContext context)async{
-    await  pref.setBool("toggleState", saveSwitched);
+    await pref.setBool("toggleState", saveSwitched);
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => MoneyTrackerMainView()));
+    notifyListeners();
   }
 
 }

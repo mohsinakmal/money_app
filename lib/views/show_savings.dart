@@ -18,7 +18,8 @@ class _ShowSavingsState extends State<ShowSavings> {
 
   void showAmount()async{
     pref = await SharedPreferences.getInstance();
-    amount = await pref.getString("remaining");
+    amount = await pref.getString("dailyAverage");
+
     setState(() {
 
     });
@@ -58,9 +59,12 @@ class _ShowSavingsState extends State<ShowSavings> {
               style: TextStyle(fontSize: SizeConfig.textMultiplier * 3),
             ),
             Text(
-              amount,
+              '\$'+amount,
               style: TextStyle(fontSize: SizeConfig.textMultiplier * 5),
             ),
+                // Text(
+                //   amount = await pref.getString("remaining");
+                // ),
             SizedBox(
               height: SizeConfig.heightMultiplier * 3,
             ),

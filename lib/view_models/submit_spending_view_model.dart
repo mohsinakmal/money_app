@@ -12,10 +12,12 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   String errorMessage;
   SharedPreferences pref;
   bool loadSetting = false;
+  bool savedToggle = false;
 
   void initializeModel() async {
     pref = await SharedPreferences.getInstance();
     loadSetting = await pref.getBool("toggleState");
+    savedToggle = await pref.getBool("save");
     descriptionController.clear();
     isDescriptionInFocus = false;
     notifyListeners();
@@ -90,12 +92,24 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
     notifyListeners();
   }
 
+  // void initialAmount()async{
+  //   if(amountController.text.isEmpty){
+  //     String dailyAverage = await pref.get("dailyAverage");
+  //     String remaining = dailyAverage;
+  //     await pref.setString('initial', remaining);
+  //   }
+  //   else{
+  //     calculateAmount();
+  //   }
+  // }
+
   void calculateAmount()async{
     if(amountController.text.isNotEmpty){
       String dailyAverage = await pref.get("dailyAverage");
-      String remaining = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
-      await pref.setString('remaining', remaining);
-      amountController.clear();
+      dailyAverage = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
+        await pref.setString('dailyAverage', dailyAverage);
+        amountController.clear();
+
     }
     else{
       showErrorMessage('Enter the Amount');

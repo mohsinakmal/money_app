@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           Container(
                             child: Text(
-                              data.dailyAmount,
+                              '\$' + data.dailyAmount,
                               style: TextStyle(
                                   fontSize: SizeConfig.textMultiplier * 2.5),
                             ),
