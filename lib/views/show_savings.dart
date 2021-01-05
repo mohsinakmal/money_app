@@ -14,16 +14,42 @@ class ShowSavings extends StatefulWidget {
 class _ShowSavingsState extends State<ShowSavings> {
   SharedPreferences pref;
 
+
   String amount = '';
+  String savedAmount = '';
+  double positiveRemaining = 0;
+  String showSaving = '';
 
   void showAmount()async{
     pref = await SharedPreferences.getInstance();
     amount = await pref.getString("dailyAverage");
-
+    savedAmount = await pref.getString("savedAmount");
+    showSaving = await pref.getString("savedMoney");
+    // setState(() {
+    //
+    // });
+    // if (savedAmount!=null)
+    //   {
+    //     amount = (double.parse(savedAmount)).toString();
+    //   }
+    if(showSaving != null){
+      amount = (double.parse(showSaving)).toString();
+    }
+    positiveRemaining = double.parse(amount);
+    print("");
     setState(() {
 
     });
   }
+
+  // void getRemaining()async{
+  //   pref = await SharedPreferences.getInstance();
+  //   positiveRemaining = await pref.getString("dailyAverage");
+  //   int number = int.parse(positiveRemaining);
+  //   if(number >= 0){
+  //
+  //   }
+  // }
 
   @override
   void initState() {
@@ -58,9 +84,20 @@ class _ShowSavingsState extends State<ShowSavings> {
               'Remaining Today',
               style: TextStyle(fontSize: SizeConfig.textMultiplier * 3),
             ),
+            positiveRemaining >= 0
+            ?
             Text(
               '\$'+amount,
-              style: TextStyle(fontSize: SizeConfig.textMultiplier * 5),
+              style: TextStyle(fontSize: SizeConfig.textMultiplier * 5,
+                color: Colors.green,
+              ),
+            )
+                :
+            Text(
+              '\$'+amount,
+              style: TextStyle(fontSize: SizeConfig.textMultiplier * 5,
+                color: Colors.red,
+              ),
             ),
                 // Text(
                 //   amount = await pref.getString("remaining");

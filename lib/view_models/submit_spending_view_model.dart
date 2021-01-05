@@ -13,11 +13,16 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   SharedPreferences pref;
   bool loadSetting = false;
   bool savedToggle = false;
+  String savedButton;
+  String savedAmount;
+  bool onFirstTime = true;
 
   void initializeModel() async {
     pref = await SharedPreferences.getInstance();
-    loadSetting = await pref.getBool("toggleState");
+    loadSetting = await pref.getBool("toggleState") ?? false;
     savedToggle = await pref.getBool("save");
+    savedButton = await pref.getString("savedAmount");
+    onFirstTime = await pref.getString("firstTime") ?? true;
     descriptionController.clear();
     isDescriptionInFocus = false;
     notifyListeners();
@@ -106,10 +111,40 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   void calculateAmount()async{
     if(amountController.text.isNotEmpty){
       String dailyAverage = await pref.get("dailyAverage");
-      dailyAverage = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
+       dailyAverage = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
         await pref.setString('dailyAverage', dailyAverage);
         amountController.clear();
 
+    }
+    else{
+      showErrorMessage('Enter the Amount');
+    }
+  }
+
+  void savedMoney()async{
+    if(onFirstTime){
+      if(amountController.text.isNotEmpty){
+        onFirstTime = false;
+        await pref.setBool("firstTime", onFirstTime);
+        String dailyAverage = await pref.get("dailyAverage");
+        savedAmount = (double.parse(dailyAverage) + double.parse(amountController.text)).toStringAsFixed(2);
+        await pref.setString("savedMoney", savedAmount);
+        amountController.clear();
+      }
+    }
+    else{
+      String savedValue = await pref.getString("savedMoney");
+      savedAmount = (double.parse(savedValue) + double.parse(amountController.text)).toStringAsFixed(2);
+      amountController.clear();
+    }
+  }
+
+  void saveButton()async{
+    if(amountController.text.isNotEmpty){
+      await pref.getString("savedMoney");
+      String remaining = (double.parse(savedAmount) - double.parse(amountController.text)).toStringAsFixed(2);
+      await pref.setString("remaining", remaining);
+      amountController.clear();
     }
     else{
       showErrorMessage('Enter the Amount');

@@ -142,7 +142,10 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: RaisedButton(onPressed: (){},
+                      child: RaisedButton(
+                        onPressed: (){
+                          data.savedMoney();
+                        },
                         elevation: 5.0,
                         padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),
                         //height: SizeConfig.heightMultiplier * 10,
@@ -157,7 +160,9 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                     ),
                     SizedBox(width: SizeConfig.widthMultiplier * 0.2,),
                     Expanded(
-                      child: RaisedButton(onPressed: (){},
+                      child: RaisedButton(onPressed: (){
+                        data.saveButton();
+                      },
                         elevation: 5.0,
                         padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),
                         child: Text(
