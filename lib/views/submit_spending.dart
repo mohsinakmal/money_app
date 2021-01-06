@@ -161,7 +161,7 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                     SizedBox(width: SizeConfig.widthMultiplier * 0.2,),
                     Expanded(
                       child: RaisedButton(onPressed: (){
-                        data.saveButton();
+                        data.calculateAmount();
                       },
                         elevation: 5.0,
                         padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),

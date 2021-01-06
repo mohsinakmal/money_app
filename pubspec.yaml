@@ -29,6 +29,11 @@ dependencies:
   page_transition:
   animations:
   shared_preferences: ^0.5.12+4
+  firebase_core: ^0.5.3
+  cloud_firestore: ^0.14.4
+  hive: ^1.4.4+1
+
+
 
 
 

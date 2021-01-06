@@ -14,7 +14,7 @@ class SettingsViewModel extends MyBaseViewModel {
 
   void initializeModel(BuildContext context)async{
     pref = await SharedPreferences.getInstance();
-    dailyAmount = await pref.getString('dailyAverage');
+    dailyAmount = await pref.getString('initialAmount');
      //await  pref.setBool("toggleState", saveSwitched);
     saveSwitched = await pref.getBool('toggleState') ?? false;
     savedToggle = await pref.getBool("save") ?? false;

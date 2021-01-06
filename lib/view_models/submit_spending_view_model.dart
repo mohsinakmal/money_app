@@ -122,28 +122,27 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   }
 
   void savedMoney()async{
-    if(onFirstTime){
       if(amountController.text.isNotEmpty){
         onFirstTime = false;
         await pref.setBool("firstTime", onFirstTime);
         String dailyAverage = await pref.get("dailyAverage");
         savedAmount = (double.parse(dailyAverage) + double.parse(amountController.text)).toStringAsFixed(2);
-        await pref.setString("savedMoney", savedAmount);
+        await pref.setString("dailyAverage", savedAmount);
         amountController.clear();
       }
-    }
-    else{
-      String savedValue = await pref.getString("savedMoney");
-      savedAmount = (double.parse(savedValue) + double.parse(amountController.text)).toStringAsFixed(2);
-      amountController.clear();
-    }
+
+    // else{
+    //   String savedValue = await pref.getString("dailyAverage");
+    //   savedAmount = (double.parse(savedValue) + double.parse(amountController.text)).toStringAsFixed(2);
+    //   amountController.clear();
+    // }
   }
 
-  void saveButton()async{
+  void spendButton()async{
     if(amountController.text.isNotEmpty){
       await pref.getString("savedMoney");
       String remaining = (double.parse(savedAmount) - double.parse(amountController.text)).toStringAsFixed(2);
-      await pref.setString("remaining", remaining);
+      await pref.setString("dailyAverage", remaining);
       amountController.clear();
     }
     else{

@@ -6,5 +6,4 @@ class HistoryViewModel extends MyBaseViewModel {
   void choiceAction(String choice) {
     print('Working!');
   }
-
 }

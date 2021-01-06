@@ -19,12 +19,16 @@ class _ShowSavingsState extends State<ShowSavings> {
   String savedAmount = '';
   double positiveRemaining = 0;
   String showSaving = '';
+  String initialSave = '';
 
   void showAmount()async{
     pref = await SharedPreferences.getInstance();
     amount = await pref.getString("dailyAverage");
-    savedAmount = await pref.getString("savedAmount");
-    showSaving = await pref.getString("savedMoney");
+    showSaving = await pref.getString("dailyAverage");
+    //initialSave = await pref.getString("initialSavedMoney");
+    //savedAmount = await pref.getString("savedAmount");
+    //savedAmount = await initialSave;
+    //showSaving = await pref.getString("savedMoney");
     // setState(() {
     //
     // });

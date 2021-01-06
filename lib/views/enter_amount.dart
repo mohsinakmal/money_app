@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracker_app/utils/color_utils.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
@@ -16,6 +17,7 @@ class _EnterAmountState extends State<EnterAmount> {
   String errorMessage;
   SharedPreferences pref;
   final enteredAmountController = TextEditingController();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void showErrorMessage(String error)async{
     errorMessage = error;
@@ -32,11 +34,21 @@ class _EnterAmountState extends State<EnterAmount> {
     if(enteredAmountController.text.isNotEmpty){
       pref = await SharedPreferences.getInstance();
       await pref.setString('dailyAverage', enteredAmountController.text);
+      await pref.setString('initialAmount', enteredAmountController.text);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => MoneyTrackerMainView()));
     }
     else{
       showErrorMessage('Please Enter some number');
+    }
+  }
+
+  Future<dynamic> createUsers()async{
+    try{
+      await firestore.collection("Users").doc().id;
+    }
+    catch(e){
+
     }
   }
 
@@ -111,6 +123,7 @@ class _EnterAmountState extends State<EnterAmount> {
               GestureDetector(
                 onTap: ()async{
                   amountEntered();
+                  createUsers();
                 },
                 child: Container(
                   child: Center(
