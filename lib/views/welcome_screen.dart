@@ -1,11 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:money_tracker_app/app/locator.dart';
 import 'package:money_tracker_app/utils/color_utils.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
+import 'package:money_tracker_app/view_models/history_view_model.dart';
 import 'package:money_tracker_app/views/enter_amount.dart';
 import 'package:money_tracker_app/views/money_tracker_mainView.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    locator<HistoryViewModel>().initializeModel();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

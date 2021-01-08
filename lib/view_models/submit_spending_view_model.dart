@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive/hive.dart';
+import 'package:money_tracker_app/app/locator.dart';
 import 'package:money_tracker_app/view_models/my_base_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'history_view_model.dart';
+
 class SubmitSpendingViewModel extends MyBaseViewModel {
+  var historyViewModel = locator<HistoryViewModel>();
   final descriptionController = TextEditingController();
   final amountController = TextEditingController();
   FocusNode descriptionFocus = new FocusNode();
@@ -15,16 +21,18 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   bool savedToggle = false;
   String savedButton;
   String savedAmount;
-  bool onFirstTime = true;
+  String onFirstTime;
+
 
   void initializeModel() async {
     pref = await SharedPreferences.getInstance();
-    loadSetting = await pref.getBool("toggleState") ?? false;
-    savedToggle = await pref.getBool("save");
-    savedButton = await pref.getString("savedAmount");
-    onFirstTime = await pref.getString("firstTime") ?? true;
+    loadSetting = pref.getBool("toggleState") ?? false;
+    savedToggle = pref.getBool("save");
+    savedButton = pref.getString("savedAmount");
+    onFirstTime = pref.getString("firstTime");
     descriptionController.clear();
     isDescriptionInFocus = false;
+
     notifyListeners();
   }
 
@@ -110,11 +118,12 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
 
   void calculateAmount()async{
     if(amountController.text.isNotEmpty){
-      String dailyAverage = await pref.get("dailyAverage");
-       dailyAverage = (double.parse(dailyAverage) - double.parse(amountController.text)).toStringAsFixed(2);
-        await pref.setString('dailyAverage', dailyAverage);
+      String dailyAverage1 = await pref.get("dailyAverage");
+      String dailyAverage2 = (double.parse(dailyAverage1) - double.parse(amountController.text)).toStringAsFixed(2);
+      await pref.setString('dailyAverage', dailyAverage2);
+      String spentHistory =(double.parse(dailyAverage1) - double.parse(dailyAverage2)).toStringAsFixed(2);
+       historyViewModel.saveSpent(spentHistory);
         amountController.clear();
-
     }
     else{
       showErrorMessage('Enter the Amount');
@@ -122,11 +131,12 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   }
 
   void savedMoney()async{
-      if(amountController.text.isNotEmpty){
-        onFirstTime = false;
-        await pref.setBool("firstTime", onFirstTime);
+      if(amountController.text.isNotEmpty) {
+        await pref.setString("firstTime", onFirstTime);
         String dailyAverage = await pref.get("dailyAverage");
         savedAmount = (double.parse(dailyAverage) + double.parse(amountController.text)).toStringAsFixed(2);
+        String savedHistory = (double.parse(savedAmount) - double.parse(dailyAverage)).toString();
+        historyViewModel.addMoreAmount(savedHistory);
         await pref.setString("dailyAverage", savedAmount);
         amountController.clear();
       }

@@ -15,6 +15,7 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HistoryViewModel>.reactive(
@@ -52,9 +53,12 @@ class _HistoryState extends State<History> {
                   height: SizeConfig.heightMultiplier * 3,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 2,
+                  child: data.isBusy? Center(child : CircularProgressIndicator()) :
+                  ListView.builder(
+                    itemCount: data.historyDataList.length,
                     itemBuilder: (context, index) {
+                      var historyData = data.historyDataList[index];
+                      var historyDate = data.historyDatesList[index];
                       return Card(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -63,7 +67,7 @@ class _HistoryState extends State<History> {
                               title: Row(
                                 children: [
                                   Text(
-                                    '\$12.59',
+                                    historyData['value'],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -72,13 +76,13 @@ class _HistoryState extends State<History> {
                                     width: SizeConfig.widthMultiplier * 2,
                                   ),
                                   Text(
-                                    '(10.02 PM)',
+                                    historyDate,
                                     style: TextStyle(
                                         fontSize:
                                             SizeConfig.textMultiplier * 2),
                                   ),
                                   Spacer(),
-                                  PopupMenuButton<String>(
+                             /*     PopupMenuButton<String>(
                                     onSelected: data.choiceAction,
                                     itemBuilder: (BuildContext context) {
                                       return Constants.choices
@@ -90,7 +94,7 @@ class _HistoryState extends State<History> {
                                       }).toList();
                                     },
                                     icon: Icon(Icons.arrow_drop_down_circle),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               subtitle: Text('Dinner-pizza'),
@@ -107,6 +111,7 @@ class _HistoryState extends State<History> {
         );
       },
       viewModelBuilder: () => locator<HistoryViewModel>(),
+      onModelReady: (data)=> data.sortHistory(),
       disposeViewModel: false,
     );
   }

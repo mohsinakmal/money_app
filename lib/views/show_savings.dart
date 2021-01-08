@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
 import 'package:money_tracker_app/views/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,8 +24,8 @@ class _ShowSavingsState extends State<ShowSavings> {
 
   void showAmount()async{
     pref = await SharedPreferences.getInstance();
-    amount = await pref.getString("dailyAverage");
-    showSaving = await pref.getString("dailyAverage");
+    amount =  pref.getString("dailyAverage");
+    showSaving = pref.getString("dailyAverage");
     //initialSave = await pref.getString("initialSavedMoney");
     //savedAmount = await pref.getString("savedAmount");
     //savedAmount = await initialSave;
@@ -40,6 +41,7 @@ class _ShowSavingsState extends State<ShowSavings> {
       amount = (double.parse(showSaving)).toString();
     }
     positiveRemaining = double.parse(amount);
+
     print("");
     setState(() {
 

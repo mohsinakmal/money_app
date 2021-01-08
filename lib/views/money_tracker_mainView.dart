@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracker_app/app/locator.dart';
+import 'package:money_tracker_app/view_models/history_view_model.dart';
 import 'package:money_tracker_app/view_models/nav_view_model.dart';
 import 'package:money_tracker_app/views/history.dart';
 import 'package:money_tracker_app/views/show_savings.dart';
@@ -24,6 +25,12 @@ class _MoneyTrackerMainViewState extends State<MoneyTrackerMainView> {
       case 2:
         return History(_scaffoldKey);
     }
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
   }
 
   @override
