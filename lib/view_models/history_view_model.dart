@@ -10,7 +10,10 @@ class HistoryViewModel extends MyBaseViewModel {
   Map historyMap = Map();
   List historyDataList = [];
   List historyDatesList = [];
+  String descriptionDetails = '';
+  bool isDescriptionTrue = false;
   void initializeModel()async{
+
     moneyBox = await Hive.openBox('money');
     getHistory();
   }
@@ -18,20 +21,27 @@ class HistoryViewModel extends MyBaseViewModel {
     historyMap = moneyBox.get('history')??{};
   }
 
-  void saveSpent(String spentHistory) {
-    historyMap[Timestamp.now().toDate().toString()] = {'type' : 'spent' , 'value' : spentHistory};
+  // void description(String descriptionValue){
+  //   String descriptionDetail = descriptionValue;
+  //   moneyBox.put('description', descriptionDetail);
+  //   notifyListeners();
+  // }
+
+  void saveSpent(String spentHistory, String descriptionValue) {
+    historyMap[Timestamp.now().toDate().toString()] = {'type' : 'spent' , 'value' : spentHistory, 'description' : descriptionValue, 'isTrueDescription' : isDescriptionTrue == true };
     moneyBox.put('history', historyMap);
     notifyListeners();
   }
 
-  void addMoreAmount(String savedHistory) {
-    historyMap[Timestamp.now().toDate().toString()] = {'type' : 'addMore' , 'value' : savedHistory};
+  void addMoreAmount(String savedHistory, String descriptionValue) {
+    historyMap[Timestamp.now().toDate().toString()] = {'type' : 'addMore' , 'value' : savedHistory, 'description' : descriptionValue, 'isTrueDescription' : isDescriptionTrue == false };
     moneyBox.put('history', historyMap);
     notifyListeners();
   }
 
   void sortHistory() {
   setBusy(true);
+  isDescriptionTrue = false;
   historyDataList.clear();
   historyDatesList = historyMap.keys.toList();
   historyDatesList.sort((a,b) => b.compareTo(a));

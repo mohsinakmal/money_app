@@ -70,12 +70,6 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                   ),
                 ),
                 Container(
-                  // margin: EdgeInsets.only(
-                  //     left: 3.5 * SizeConfig.widthMultiplier,
-                  //     right: 3.5 * SizeConfig.widthMultiplier,
-                  //     bottom:
-                  //     SizeConfig.heightMultiplier * 17),
-                  //height: 5.2 * SizeConfig.heightMultiplier,
                   child: Center(
                     child: data.errorMessage != null
                         ? Text(
@@ -106,6 +100,7 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                     ),
                   ),
                   child: new TextField(
+                    controller: data.descriptionController,
                     focusNode: data.descriptionFocus,
                     // textAlign: TextAlign.center,
                     decoration: new InputDecoration(

@@ -26,13 +26,6 @@ class _MoneyTrackerMainViewState extends State<MoneyTrackerMainView> {
         return History(_scaffoldKey);
     }
   }
-
-  @override
-  void initState() {
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NavViewModel>.reactive(

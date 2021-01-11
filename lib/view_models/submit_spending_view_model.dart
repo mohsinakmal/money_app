@@ -22,6 +22,7 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   String savedButton;
   String savedAmount;
   String onFirstTime;
+  String descriptionValue = '';
 
 
   void initializeModel() async {
@@ -122,7 +123,8 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
       String dailyAverage2 = (double.parse(dailyAverage1) - double.parse(amountController.text)).toStringAsFixed(2);
       await pref.setString('dailyAverage', dailyAverage2);
       String spentHistory =(double.parse(dailyAverage1) - double.parse(dailyAverage2)).toStringAsFixed(2);
-       historyViewModel.saveSpent(spentHistory);
+       descriptionValue = descriptionController.text;
+       historyViewModel.saveSpent(spentHistory,descriptionValue);
         amountController.clear();
     }
     else{
@@ -136,7 +138,8 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
         String dailyAverage = await pref.get("dailyAverage");
         savedAmount = (double.parse(dailyAverage) + double.parse(amountController.text)).toStringAsFixed(2);
         String savedHistory = (double.parse(savedAmount) - double.parse(dailyAverage)).toString();
-        historyViewModel.addMoreAmount(savedHistory);
+        String descriptionValue = descriptionController.text;
+        historyViewModel.addMoreAmount(savedHistory, descriptionValue);
         await pref.setString("dailyAverage", savedAmount);
         amountController.clear();
       }

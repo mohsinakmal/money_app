@@ -57,8 +57,9 @@ class _HistoryState extends State<History> {
                   ListView.builder(
                     itemCount: data.historyDataList.length,
                     itemBuilder: (context, index) {
-                      var historyData = data.historyDataList[index];
+                      Map historyData = data.historyDataList[index];
                       var historyDate = data.historyDatesList[index];
+                      //var historyDescription = data.hist;
                       return Card(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -67,9 +68,10 @@ class _HistoryState extends State<History> {
                               title: Row(
                                 children: [
                                   Text(
-                                    historyData['value'],
+                                  '\$' + historyData['value'],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
+                                        color: historyData['isTrueDescription']?Colors.green:Colors.red,
                                     ),
                                   ),
                                   SizedBox(
@@ -97,7 +99,9 @@ class _HistoryState extends State<History> {
                                   ),*/
                                 ],
                               ),
-                              subtitle: Text('Dinner-pizza'),
+                        subtitle:
+                              Text(historyData['description'],
+                              ),
                             ),
                           ],
                         ),
