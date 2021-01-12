@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
                           ),
                           Container(
                             child: Text(
-                              '\$' + data.dailyAmount,
+                               data.dailyAmount,
                               style: TextStyle(
                                   fontSize: SizeConfig.textMultiplier * 2.5),
                             ),
@@ -106,22 +106,31 @@ class _SettingsState extends State<Settings> {
                             margin:
                                 EdgeInsets.all(SizeConfig.widthMultiplier * 3),
                           ),
-                          Container(
-                            child: PopupMenuButton<String>(
-                              onSelected: data.choiceAction,
-                              itemBuilder: (BuildContext context) {
-                                return Constants.currencies
-                                    .map((String choice) {
-                                  return PopupMenuItem<String>(
-                                    value: choice,
-                                    child: Text(choice),
-                                  );
-                                }).toList();
-                              },
-                              icon: Icon(Icons.arrow_drop_down_circle),
-                            ),
-                            margin:
-                                EdgeInsets.all(SizeConfig.widthMultiplier * 3),
+                          Row(
+                            children: [
+                              Text(data.currencies,
+                                style: TextStyle(fontSize: 17.0),
+                              ),
+                              Container(
+                                child: PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    data.showAlertDialog(context,value);
+                                  },
+                                  itemBuilder: (BuildContext context) {
+                                    return Constants.currencies
+                                        .map((String choice) {
+                                      return PopupMenuItem<String>(
+                                        value: choice,
+                                        child: Text(choice),
+                                      );
+                                    }).toList();
+                                  },
+                                  icon: Icon(Icons.arrow_drop_down_circle),
+                                ),
+                                margin:
+                                    EdgeInsets.all(SizeConfig.widthMultiplier * 2),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -304,3 +313,5 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
+
+

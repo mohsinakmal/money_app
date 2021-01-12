@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:money_tracker_app/utils/color_utils.dart';
 import 'package:money_tracker_app/utils/sizeconfig.dart';
 import 'package:money_tracker_app/utils/common_functions.dart';
@@ -18,6 +19,7 @@ class _EnterAmountState extends State<EnterAmount> {
   SharedPreferences pref;
   final enteredAmountController = TextEditingController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var amountBox;
 
   void showErrorMessage(String error)async{
     errorMessage = error;
@@ -51,7 +53,6 @@ class _EnterAmountState extends State<EnterAmount> {
 
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
