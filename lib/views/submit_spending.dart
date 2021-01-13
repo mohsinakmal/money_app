@@ -53,21 +53,29 @@ class _SubmitSpendingState extends State<SubmitSpending> {
                 SizedBox(
                   height: ScreenUtil.getInstance().height * .05,
                 ),
-                Container(
-                  child: new TextField(
-                    controller: data.amountController,
-                    textAlign: TextAlign.center,
-                    readOnly: true,
-                    style: TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
-                    decoration: new InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(left: SizeConfig.widthMultiplier * 2),
-                      hintText: data.currentValue,
-                      hintStyle:
-                          TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
-                      border: InputBorder.none,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      data.currencyLogo,
+                    style:TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
                     ),
-                  ),
+                    TextField(
+                      controller: data.amountController,
+                      //textAlign: TextAlign.center,
+                      readOnly: true,
+                      style: TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
+                      decoration: new InputDecoration(
+                        contentPadding:
+                        EdgeInsets.only(left: SizeConfig.widthMultiplier * 2),
+                        hintText: data.currentValue,
+                        hintStyle:
+                        TextStyle(fontSize: 8 * SizeConfig.textMultiplier),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   child: Center(

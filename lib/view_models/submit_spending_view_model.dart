@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive/hive.dart';
 import 'package:money_tracker_app/app/locator.dart';
+import 'package:money_tracker_app/utils/constants.dart';
 import 'package:money_tracker_app/view_models/my_base_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +15,8 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   final amountController = TextEditingController();
   FocusNode descriptionFocus = new FocusNode();
   bool isDescriptionInFocus = false;
-  String currentValue = "\$0.00";
+  String currentValue = "0.00";
+  String currencyLogo = '\$';
   String errorMessage;
   SharedPreferences pref;
   bool loadSetting = false;
@@ -23,6 +25,7 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
   String savedAmount;
   String onFirstTime;
   String descriptionValue = '';
+  String getCurrency = Constants.dollars;
 
 
   void initializeModel() async {
@@ -31,6 +34,7 @@ class SubmitSpendingViewModel extends MyBaseViewModel {
     savedToggle = pref.getBool("save");
     savedButton = pref.getString("savedAmount");
     onFirstTime = pref.getString("firstTime");
+    getCurrency = pref.getString("currency");
     descriptionController.clear();
     isDescriptionInFocus = false;
 

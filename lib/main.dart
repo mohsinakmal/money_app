@@ -20,11 +20,11 @@ void main() async {
   await Firebase.initializeApp();
   await configure();
   SharedPreferences pref = await SharedPreferences.getInstance();
-  int initialAmount = int.parse(pref.get("initialAmount"));
+  int initialAmount = int.parse(await pref.get("initialAmount") ?? "0");
   Directory document = await getApplicationDocumentsDirectory();
   Hive.init(document.path);
   runApp(
-    App(initialAmount),
+     App(initialAmount),
   );
 }
 
